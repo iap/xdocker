@@ -14,25 +14,28 @@ Docker Desktop **4.15.0** installer for compatible macOS versions.
 
 ### Install
 ```bash
-chmod +x install.sh
-./install.sh
+chmod +x install.sh setup.sh
+./install.sh   # download, install, disable updates
+./setup.sh     # register login agent (keeps updates disabled permanently)
+```
+
+### Reinstall (repair broken install)
+```bash
+chmod +x reinstall.sh
+./reinstall.sh
 ```
 
 ### Disable Updates & Notifications (standalone)
-If Docker is already installed, run this to suppress update prompts:
+If Docker is already installed:
 ```bash
-chmod +x disable-updates.sh
-./disable-updates.sh
+chmod +x disable-updates.sh setup.sh
+./disable-updates.sh   # apply settings now
+./setup.sh             # keep them applied on every login
 ```
-This does three things:
-1. Disables Sparkle auto-update in Docker's app plist
-2. Replaces the `Autoupdate` binary with a no-op stub
-3. Locks `settings.json` as immutable so Docker can't re-enable updates
 
-To undo:
+To remove the login agent:
 ```bash
-chmod +x restore-updates.sh
-./restore-updates.sh
+./teardown.sh
 ```
 
 ### Uninstall

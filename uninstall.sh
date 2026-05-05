@@ -29,6 +29,9 @@ rm -f ~/Library/LaunchAgents/com.docker.*
 sudo rm -f /Library/LaunchDaemons/com.docker.*
 sudo rm -f /Library/LaunchDaemons/homebrew.mxcl.socket_vmnet.plist
 
+echo "🔧 Removing xdocker login agent..."
+bash "$(dirname "$0")/teardown.sh" 2>/dev/null || true
+
 echo "🔧 Removing privileged helpers..."
 sudo rm -f /Library/PrivilegedHelperTools/com.docker.vmnetd
 sudo rm -f /Library/PrivilegedHelperTools/com.docker.socket
