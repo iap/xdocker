@@ -35,6 +35,9 @@ echo "🧹 Cleaning up..."
 hdiutil detach /Volumes/Docker -quiet
 rm -f "$DMG_PATH"
 
+echo "🔓 Removing macOS quarantine flag..."
+sudo xattr -rd com.apple.quarantine /Applications/Docker.app
+
 echo "🔒 Disabling auto-update..."
 bash "$(dirname "$0")/disable-updates.sh"
 

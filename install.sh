@@ -43,5 +43,8 @@ echo "🧹 Cleaning up..."
 hdiutil detach "/Volumes/Docker" -quiet
 rm -f "$DMG_PATH"
 
+echo "🔓 Removing macOS quarantine flag..."
+sudo xattr -rd com.apple.quarantine /Applications/Docker.app
+
 echo "✅ Docker Desktop $DOCKER_VERSION installed successfully!"
 echo "👉 Launch Docker from /Applications/Docker.app"
