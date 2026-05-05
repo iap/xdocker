@@ -38,6 +38,10 @@ rm -f "$DMG_PATH"
 echo "🔓 Removing macOS quarantine flag..."
 sudo xattr -rd com.apple.quarantine /Applications/Docker.app
 
+echo "🔧 Fixing permissions..."
+sudo chmod -R 755 /Applications/Docker.app
+sudo chown -R root:wheel /Applications/Docker.app
+
 echo "🔒 Disabling auto-update..."
 bash "$(dirname "$0")/disable-updates.sh"
 
