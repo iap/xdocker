@@ -23,22 +23,8 @@ hdiutil attach "$DMG_PATH" -nobrowse -quiet
 echo "📂 Installing Docker Desktop..."
 cp -R "/Volumes/Docker/Docker.app" /Applications/
 
-echo "🔒 Disabling auto-update..."
-SETTINGS_DIR="$HOME/Library/Group Containers/group.com.docker"
-mkdir -p "$SETTINGS_DIR"
-SETTINGS_FILE="$SETTINGS_DIR/settings.json"
-if [[ -f "$SETTINGS_FILE" ]]; then
-  # Update existing settings
-  python3 -c "
-import json, sys
-with open('$SETTINGS_FILE') as f: s = json.load(f)
-s['autoUpdate'] = False
-s['analyticsEnabled'] = False
-with open('$SETTINGS_FILE', 'w') as f: json.dump(s, f, indent=2)
-"
-else
-  echo '{"autoUpdate": false, "analyticsEnabled": false}' > "$SETTINGS_FILE"
-fi
+echo "🔒 Disabling auto-update and notifications..."
+bash "$(dirname "$0")/disable-updates.sh"
 
 echo "🧹 Cleaning up..."
 hdiutil detach "/Volumes/Docker" -quiet

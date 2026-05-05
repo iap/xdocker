@@ -18,6 +18,14 @@ chmod +x install.sh
 ./install.sh
 ```
 
+### Disable Updates & Notifications (standalone)
+If Docker is already installed, run this to suppress update prompts:
+```bash
+chmod +x disable-updates.sh
+./disable-updates.sh
+```
+This disables auto-update, update notifications, and blocks the Docker update endpoint in `/etc/hosts`.
+
 ### Uninstall
 ```bash
 chmod +x uninstall.sh
