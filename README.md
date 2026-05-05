@@ -54,3 +54,16 @@ docker-compose up -d
 ## Notes
 - Auto-update is **disabled** on install to prevent upgrading to an incompatible version
 - The installer downloads the official DMG directly from Docker's servers
+
+## Simplification Roadmap
+
+Once confirmed stable (no update popups after several restarts), the project can be simplified:
+
+| What to remove | Why |
+|---|---|
+| `setup.sh` / `teardown.sh` / `com.xdocker.disable-updates.plist` | If `disable-updates.sh` settings stick across restarts, the hourly launchd agent is unnecessary |
+| `disable-updates.sh` call in `install.sh` | If Docker 4.15.0 respects `settings.json` from first launch, no need to pre-write it |
+| `reinstall.sh` | Redundant once install is proven stable — just a wrapper around `install.sh` |
+| `restore-updates.sh` | Already a no-op, can be deleted |
+
+**Recommendation:** Run Docker normally for a few days. If no update popup appears after reboot, remove the launchd agent with `./teardown.sh` and simplify to just `install.sh` + `uninstall.sh`.
