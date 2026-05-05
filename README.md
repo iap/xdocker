@@ -24,7 +24,16 @@ If Docker is already installed, run this to suppress update prompts:
 chmod +x disable-updates.sh
 ./disable-updates.sh
 ```
-This disables auto-update, update notifications, and blocks the Docker update endpoint in `/etc/hosts`.
+This does three things:
+1. Disables Sparkle auto-update in Docker's app plist
+2. Replaces the `Autoupdate` binary with a no-op stub
+3. Locks `settings.json` as immutable so Docker can't re-enable updates
+
+To undo:
+```bash
+chmod +x restore-updates.sh
+./restore-updates.sh
+```
 
 ### Uninstall
 ```bash
