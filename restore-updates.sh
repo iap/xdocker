@@ -1,4 +1,3 @@
-#!/bin/bash
-# Unlocks settings.json so Docker can modify it again
-SETTINGS_FILE="$HOME/Library/Group Containers/group.com.docker/settings.json"
-chflags nouchg "$SETTINGS_FILE" 2>/dev/null && echo "✅ settings.json unlocked" || echo "Already unlocked"
+# restore-updates.sh is no longer needed.
+# disable-updates.sh no longer locks settings.json.
+# To re-enable updates, open Docker Desktop > Settings > Software Updates.

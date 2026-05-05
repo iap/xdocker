@@ -1,49 +1,9 @@
 #!/bin/bash
+# reinstall.sh - stops Docker and runs install.sh fresh
 set -e
 
-DOCKER_VERSION="4.15.0"
-DOCKER_DMG_URL="https://desktop.docker.com/mac/main/amd64/93002/Docker.dmg"
-DMG_PATH="/tmp/Docker-${DOCKER_VERSION}.dmg"
+echo "🛑 Stopping Docker..."
+pkill -9 -f Docker 2>/dev/null || true
+sleep 2
 
-EXPECTED_SHA256="bee41d646916e579b16b7fae014e2fb5e5e7b5dbaf7c1949821fd311d3ce430b"
-
-echo "📦 Downloading Docker Desktop $DOCKER_VERSION..."
-curl -L "$DOCKER_DMG_URL" -o "$DMG_PATH"
-
-echo "🔐 Verifying SHA256..."
-ACTUAL_SHA256=$(shasum -a 256 "$DMG_PATH" | awk '{print $1}')
-if [[ "$ACTUAL_SHA256" != "$EXPECTED_SHA256" ]]; then
-  echo "❌ SHA256 mismatch! Download may be corrupted."
-  echo "   Expected: $EXPECTED_SHA256"
-  echo "   Got:      $ACTUAL_SHA256"
-  rm -f "$DMG_PATH"
-  exit 1
-fi
-echo "✅ SHA256 verified"
-
-echo "💿 Mounting DMG..."
-hdiutil attach "$DMG_PATH" -nobrowse -quiet
-
-echo "🔍 Verifying DMG signature..."
-codesign --verify /Volumes/Docker/Docker.app 2>&1 || { echo "❌ DMG app signature invalid, aborting."; hdiutil detach /Volumes/Docker -quiet; exit 1; }
-
-echo "📂 Reinstalling Docker Desktop (requires password)..."
-sudo rm -rf /Applications/Docker.app
-sudo cp -R /Volumes/Docker/Docker.app /Applications/Docker.app
-
-echo "🧹 Cleaning up..."
-hdiutil detach /Volumes/Docker -quiet
-rm -f "$DMG_PATH"
-
-echo "🔓 Removing macOS quarantine flag..."
-sudo xattr -rd com.apple.quarantine /Applications/Docker.app
-
-echo "🔧 Fixing permissions..."
-sudo chmod -R 755 /Applications/Docker.app
-sudo chown -R root:wheel /Applications/Docker.app
-
-echo "🔒 Disabling auto-update..."
-bash "$(dirname "$0")/disable-updates.sh"
-
-echo ""
-echo "✅ Done! Launch Docker from /Applications/Docker.app"
+bash "$(dirname "$0")/install.sh"
