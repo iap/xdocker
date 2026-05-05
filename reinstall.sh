@@ -11,7 +11,11 @@ curl -L "$DOCKER_DMG_URL" -o "$DMG_PATH"
 echo "💿 Mounting DMG..."
 hdiutil attach "$DMG_PATH" -nobrowse -quiet
 
+echo "🔍 Verifying DMG signature..."
+codesign --verify /Volumes/Docker/Docker.app 2>&1 || { echo "❌ DMG app signature invalid, aborting."; hdiutil detach /Volumes/Docker -quiet; exit 1; }
+
 echo "📂 Reinstalling Docker Desktop (requires password)..."
+sudo rm -rf /Applications/Docker.app
 sudo cp -R /Volumes/Docker/Docker.app /Applications/Docker.app
 
 echo "🧹 Cleaning up..."
