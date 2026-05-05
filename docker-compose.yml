@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  app:
+    image: ${APP_IMAGE:-nginx:alpine}
+    container_name: ${APP_NAME:-xdocker-app}
+    ports:
+      - "${APP_PORT:-8080}:80"
+    volumes:
+      - ./data:/usr/share/nginx/html:ro
+    restart: unless-stopped
+    environment:
+      - ENV=${ENV:-development}
+
+  # Uncomment to add a database
+  # db:
+  #   image: postgres:14-alpine
+  #   container_name: ${APP_NAME:-xdocker}-db
+  #   environment:
+  #     POSTGRES_USER: ${DB_USER:-user}
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+  #     POSTGRES_DB: ${DB_NAME:-appdb}
+  #   volumes:
+  #     - db_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+# volumes:
+#   db_data:
