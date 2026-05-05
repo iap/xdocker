@@ -30,7 +30,7 @@ s.update({
     'useNightlyBuildUpdates': False,
     'showUpdateNotification': False,
     'analyticsEnabled': False,
-    'disableUpdate': {'engine': True, 'desktop': True}
+    'disableUpdate': True
 })
 with open(path, 'w') as f: json.dump(s, f, indent=2)
 print('settings.json updated')
