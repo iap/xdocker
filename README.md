@@ -67,3 +67,7 @@ Once confirmed stable (no update popups after several restarts), the project can
 | `restore-updates.sh` | Already a no-op, can be deleted |
 
 **Recommendation:** Run Docker normally for a few days. If no update popup appears after reboot, remove the launchd agent with `./teardown.sh` and simplify to just `install.sh` + `uninstall.sh`.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
